@@ -45,3 +45,5 @@ bcrypt
 beautifulsoup4
 httpx
 websockets
+from mangum import Mangum
+handler = Mangum(app)
