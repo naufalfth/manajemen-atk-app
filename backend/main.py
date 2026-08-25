@@ -78,6 +78,8 @@ class Token(BaseModel):
     token_type: str
 
 app = FastAPI()
+from mangum import Mangum
+handler = Mangum(app)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 class ConnectionManager:
