@@ -1,5 +1,8 @@
 import { useState, useEffect, type FormEvent } from 'react';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const WS_BASE_URL = API_BASE_URL.replace(/^http/, 'ws');
+
 interface Barang {
   id: number;
   nama: string;
@@ -43,7 +46,7 @@ function App() {
     formData.append('username', loginUsername);
     formData.append('password', loginPassword);
 
-    fetch('http://localhost:8000/api/login', {
+    fetch('${API_BASE_URL}/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString(),
@@ -65,7 +68,7 @@ function App() {
     e.preventDefault();
     setLoginError('');
     
-    fetch('http://localhost:8000/api/register', {
+    fetch(`${API_BASE_URL}/api/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: loginUsername, password: loginPassword }),
@@ -81,7 +84,7 @@ function App() {
         alert("Pendaftaran berhasil! Silakan masuk menggunakan akun baru Anda.");
         setIsRegisterMode(false);
         setLoginPassword('');
-        setLoginUsername(''); // ✨ UX FIX: Mengosongkan username agar form bersih!
+        setLoginUsername('');
       })
       .catch((err) => setLoginError(err.message));
   };
@@ -94,7 +97,7 @@ function App() {
 
   useEffect(() => {
     if (!token) return;
-    fetch('http://localhost:8000/api/barang', {
+    fetch(`${API_BASE_URL}/api/barang`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then((res) => {
@@ -110,7 +113,7 @@ function App() {
 
   useEffect(() => {
     if (!token) return;
-    const ws = new WebSocket('ws://localhost:8000/ws');
+    const ws = new WebSocket(`${WS_BASE_URL}/ws`);
     
     ws.onmessage = (event) => {
       if (event.data === "DATA_UPDATED") {
@@ -131,7 +134,7 @@ function App() {
       alert("Mohon isi semua kolom!"); return;
     }
     const payload = { nama: inputNama, stok: Number(inputStok), harga: Number(inputHarga) };
-    const url = editId ? `http://localhost:8000/api/barang/${editId}` : 'http://localhost:8000/api/barang';
+    const url = editId ? `${API_BASE_URL}/api/barang/${editId}` : `${API_BASE_URL}/api/barang`;
     
     fetch(url, {
       method: editId ? 'PUT' : 'POST',
@@ -148,7 +151,7 @@ function App() {
 
   const handleHapusBarang = (id: number) => {
     if (!window.confirm("Yakin ingin menghapus barang ini?")) return;
-    fetch(`http://localhost:8000/api/barang/${id}`, { 
+    fetch(`${API_BASE_URL}/api/barang/${id}`, { 
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     })
