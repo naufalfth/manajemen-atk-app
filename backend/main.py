@@ -23,6 +23,13 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try: return pwd_context.verify(plain_password, hashed_password)
+    except Exception: return False
+
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
 SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/inventaris_atk.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
