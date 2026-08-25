@@ -116,19 +116,24 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
 
 @app.post("/api/register")
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    # Cek apakah username sudah dipakai orang lain
-    existing_user = db.query(UserDB).filter(UserDB.username == user.username).first()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Username sudah terdaftar, pilih yang lain")
-    
-    new_user = UserDB(
-        username=user.username,
-        hashed_password=get_password_hash(user.password),
-        role="user" 
-    )
-    db.add(new_user)
-    db.commit()
-    return {"pesan": "Registrasi berhasil"}
+    try:
+        existing_user = db.query(UserDB).filter(UserDB.username == user.username).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Username sudah terdaftar, pilih yang lain")
+        
+        new_user = UserDB(
+            username=user.username,
+            hashed_password=get_password_hash(user.password),
+            role="user" 
+        )
+        db.add(new_user)
+        db.commit()
+        return {"pesan": "Registrasi berhasil"}
+    except Exception as e:
+        # Ini akan memaksa Python memunculkan error aslinya ke layar browser Anda
+        import traceback
+        error_detail = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=str(e) + " || TRACE: " + error_detail)
 
 @app.get("/api/barang", response_model=List[Barang])
 def get_semua_barang(db: Session = Depends(get_db), current_user: UserDB = Depends(get_current_user)):
