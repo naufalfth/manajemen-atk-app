@@ -1,7 +1,7 @@
 import { useState, useEffect, type FormEvent } from 'react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const WS_BASE_URL = API_BASE_URL.replace(/^http/, 'ws');
+const API_BASE_URL = ""; 
+const WS_BASE_URL = `wss://${window.location.host}/ws`;
 
 interface Barang {
   id: number;
