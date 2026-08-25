@@ -1,4 +1,5 @@
 import { useState, useEffect, type FormEvent } from 'react';
+import api from './api'; 
 
 const API_BASE_URL = ""; 
 const WS_BASE_URL = `wss://${window.location.host}/ws`;
@@ -39,54 +40,51 @@ function App() {
   const [editId, setEditId] = useState<number | null>(null);
   const [kataKunci, setKataKunci] = useState<string>('');
 
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setLoginError('');
+
+    // Gunakan URLSearchParams agar formatnya sesuai dengan sistem token FastAPI
     const formData = new URLSearchParams();
     formData.append('username', loginUsername);
     formData.append('password', loginPassword);
+    
+    try {
+      // Pemanggilan menjadi sangat bersih dan bebas salah ketik URL
+      const response = await api.post('/login', formData, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      });
 
-    fetch('${API_BASE_URL}/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString(),
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Username atau Password salah!");
-        return res.json();
-      })
-      .then((data) => {
-        setToken(data.access_token);
-        localStorage.setItem('token', data.access_token);
-        setLoginUsername('');
-        setLoginPassword('');
-      })
-      .catch((err) => setLoginError(err.message));
+      setToken(response.data.access_token);
+      localStorage.setItem('token', response.data.access_token);
+      setLoginUsername('');
+      setLoginPassword('');
+    } catch (error) {
+      // Solusi TypeScript tanpa menggunakan kata kunci 'any'
+      const err = error as { response?: { data?: { detail?: string } } };
+      setLoginError(err.response?.data?.detail || "Username atau Password salah!");
+    }
   };
 
-  const handleRegister = (e: FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setLoginError('');
     
-    fetch(`${API_BASE_URL}/api/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: loginUsername, password: loginPassword }),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.detail || "Gagal melakukan registrasi");
-        }
-        return res.json();
-      })
-      .then(() => {
-        alert("Pendaftaran berhasil! Silakan masuk menggunakan akun baru Anda.");
-        setIsRegisterMode(false);
-        setLoginPassword('');
-        setLoginUsername('');
-      })
-      .catch((err) => setLoginError(err.message));
+    try {
+      await api.post('/register', { 
+        username: loginUsername, 
+        password: loginPassword 
+      });
+
+      alert("Pendaftaran berhasil! Silakan masuk menggunakan akun baru Anda.");
+      setIsRegisterMode(false);
+      setLoginPassword('');
+      setLoginUsername('');
+    } catch (error) {
+      // Solusi TypeScript tanpa menggunakan kata kunci 'any'
+      const err = error as { response?: { data?: { detail?: string } } };
+      setLoginError(err.response?.data?.detail || "Gagal melakukan registrasi");
+    }
   };
 
   const handleLogout = () => {
