@@ -12,8 +12,8 @@ from pydantic import BaseModel
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-from nlp_engine import nlp
-from scraper_engine import scrape_harga_pasar
+from backend.nlp_engine import nlp
+from backend.scraper_engine import scrape_harga_pasar
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY", "kunci_rahasia_toko_atk_super_aman_123_default")
@@ -23,19 +23,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    try: return pwd_context.verify(plain_password, hashed_password)
-    except Exception: return False
-
-def get_password_hash(password: str) -> str: return pwd_context.hash(password)
-
-def create_access_token(data: dict, expires_delta: timedelta = None):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + (expires_delta if expires_delta else timedelta(minutes=15))
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-SQLALCHEMY_DATABASE_URL = "sqlite:///./inventaris_atk.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/inventaris_atk.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
