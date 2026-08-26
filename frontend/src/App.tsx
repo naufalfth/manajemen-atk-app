@@ -188,7 +188,7 @@ function App() {
   if (!token) {
     return (
       <div className="main-container" style={{ minHeight: '100vh', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9' }}>
-        <div style={{ backgroundColor: '#ffffff', padding: '50px 40px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '40px 25px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', boxSizing: 'border-box' }}>
           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: isRegisterMode ? 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' : 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)', borderRadius: '50%', opacity: '0.2', zIndex: 0, transition: 'background 0.5s' }}></div>
 
           <div style={{ position: 'relative', zIndex: 1 }}>

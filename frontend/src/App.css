@@ -1,23 +1,14 @@
-html, body {
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-#root {
-  max-width: 100% !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: flex !important;
-  justify-content: center !important;
-}
-
-#root > div {
-  width: 100% !important;
-  box-sizing: border-box;
+  background-color: #0f172a; /* Menyamakan background luar */
 }
 
 @media (max-width: 768px) {
