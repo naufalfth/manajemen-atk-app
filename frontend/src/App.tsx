@@ -1,5 +1,6 @@
-import { useState, useEffect, type FormEvent } from 'react';
-import api from './api'; 
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
+import api from './api';
+import './App.css';
 
 const API_BASE_URL = ""; 
 const WS_BASE_URL = `wss://${window.location.host}/ws`;
@@ -93,7 +94,7 @@ function App() {
     setDaftarBarang([]);
   };
 
-  useEffect(() => {
+  const fetchDataBarang = useCallback(() => {
     if (!token) return;
     fetch(`${API_BASE_URL}/api/barang`, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -108,6 +109,10 @@ function App() {
       .then((data) => { setDaftarBarang(data); setLoading(false); })
       .catch((err) => { console.error(err); setLoading(false); });
   }, [token]);
+
+  useEffect(() => {
+    fetchDataBarang();
+  }, [fetchDataBarang]);
 
   useEffect(() => {
     if (!token) return;
@@ -143,7 +148,11 @@ function App() {
         if (!res.ok) throw new Error(await res.text());
         return res.json();
       })
-      .then(() => resetForm())
+      .then(() => {
+        resetForm();
+        fetchDataBarang(); // <--- Tambahan agar tabel langsung update!
+        alert(editId ? "Data berhasil diperbarui!" : "Barang berhasil ditambahkan!");
+      })
       .catch((err) => console.error(err));
   };
 
@@ -154,7 +163,11 @@ function App() {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then((res) => {
-        if (res.status === 403) alert("Akses Ditolak: Hanya Super Admin yang bisa menghapus data.");
+        if (res.status === 403) {
+          alert("Akses Ditolak: Hanya Super Admin yang bisa menghapus data.");
+        } else if (res.ok) {
+          fetchDataBarang(); // <--- Tambahan agar barang langsung hilang dari layar!
+        }
       });
   };
 
@@ -174,7 +187,7 @@ function App() {
 
   if (!token) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px' }}>
+      <div className="main-container" style={{ minHeight: '100vh', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9' }}>
         <div style={{ backgroundColor: '#ffffff', padding: '50px 40px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: isRegisterMode ? 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' : 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)', borderRadius: '50%', opacity: '0.2', zIndex: 0, transition: 'background 0.5s' }}></div>
 
@@ -228,7 +241,7 @@ function App() {
   return (
     <div style={{ minHeight: '100vh', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9' }}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+        <div className="daftar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
           <div>
             <h1 style={{ margin: 0, color: '#0f172a', fontSize: '28px', fontWeight: '800' }}>Dashboard Inventaris</h1>
             <p style={{ margin: '5px 0 0 0', color: '#64748b', fontSize: '15px' }}>Sistem Manajemen Stok Terpusat (AI Powered)</p>
@@ -256,7 +269,7 @@ function App() {
             <h3 style={{ marginTop: 0, color: editId ? '#0369a1' : '#334155', fontSize: '15px' }}>
               {editId ? `Mengedit Data (ID: ${editId})` : "Tambah Stok Baru"}
             </h3>
-            <form onSubmit={handleSimpanBarang} style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <form className="form-tambah-container" onSubmit={handleSimpanBarang} style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
               <input type="text" placeholder="Ketik nama barang (Cth: Tinta Epson Hitam)" value={inputNama} onChange={(e) => setInputNama(e.target.value)} style={{ backgroundColor: '#ffffff', color: '#1e293b', padding: '12px 16px', flex: 2, minWidth: '200px', border: '1px solid #cbd5e1', borderRadius: '8px', outline: 'none', fontSize: '14px' }} />
               <input type="number" placeholder="Stok" value={inputStok} onChange={(e) => setInputStok(e.target.value ? Number(e.target.value) : '')} style={{ backgroundColor: '#ffffff', color: '#1e293b', padding: '12px 16px', flex: 1, minWidth: '100px', border: '1px solid #cbd5e1', borderRadius: '8px', outline: 'none', fontSize: '14px' }} />
               <input type="number" placeholder="Harga Jual (Rp)" value={inputHarga} onChange={(e) => setInputHarga(e.target.value ? Number(e.target.value) : '')} style={{ backgroundColor: '#ffffff', color: '#1e293b', padding: '12px 16px', flex: 1, minWidth: '120px', border: '1px solid #cbd5e1', borderRadius: '8px', outline: 'none', fontSize: '14px' }} />
@@ -267,7 +280,7 @@ function App() {
             </form>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+          <div className="header-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
             <h3 style={{ margin: 0, color: '#1e293b', fontSize: '18px' }}>Daftar Inventaris</h3>
             <input type="text" placeholder="Cari nama barang..." value={kataKunci} onChange={(e) => setKataKunci(e.target.value)} style={{ backgroundColor: '#f8fafc', color: '#1e293b', padding: '10px 16px', width: '250px', border: '1px solid #e2e8f0', borderRadius: '20px', outline: 'none', fontSize: '13px' }} />
           </div>
@@ -289,11 +302,12 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {barangDitampilkan.map((barang) => {
+                  {/* Tambahkan parameter index di sini */}
+                  {barangDitampilkan.map((barang, index) => {
                     const styleKategori = getKategoriStyle(barang.kategori);
                     return (
                       <tr key={barang.id} style={{ borderBottom: '1px solid #f1f5f9', backgroundColor: editId === barang.id ? '#f0f9ff' : 'transparent', transition: 'background-color 0.2s' }}>
-                        <td style={{ padding: '16px', color: '#94a3b8' }}>{barang.id}</td>
+                        <td style={{ padding: '16px', color: '#94a3b8' }}>{index + 1}</td>
                         <td style={{ padding: '16px', fontWeight: '600', color: '#1e293b' }}>{barang.nama}</td>
                         <td style={{ padding: '16px' }}>
                           <span style={{ backgroundColor: styleKategori.bg, color: styleKategori.color, padding: '4px 10px', borderRadius: '6px', fontSize: '12px', fontWeight: '600' }}>
