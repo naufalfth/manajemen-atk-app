@@ -32,6 +32,7 @@ function App() {
   const [loginPassword, setLoginPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
   const [isRegisterMode, setIsRegisterMode] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [daftarBarang, setDaftarBarang] = useState<Barang[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -187,10 +188,9 @@ function App() {
 
   if (!token) {
     return (
-      <div style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px', boxSizing: 'border-box' }}>
-        <div style={{ backgroundColor: '#ffffff', padding: '40px 30px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', boxSizing: 'border-box' }}>
-          <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: isRegisterMode ? 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' : 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)', borderRadius: '50%', opacity: '0.2', zIndex: 0, transition: 'background 0.5s' }}></div>
-
+      <div style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f1f5f9', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px', boxSizing: 'border-box' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '50px 40px', borderRadius: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
+          
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div style={{ fontSize: '48px', marginBottom: '15px' }}>📦</div>
@@ -209,10 +209,30 @@ function App() {
                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '12px', fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: '1px' }}>Username</label>
                 <input type="text" required value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} style={{ width: '100%', padding: '16px 20px', backgroundColor: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px', outline: 'none', boxSizing: 'border-box', fontSize: '15px', color: '#1e293b', fontWeight: '500', transition: 'border-color 0.2s' }} placeholder="Ketik username Anda..." />
               </div>
+
+              {/* INPUT PASSWORD DENGAN TOMBOL LIHAT/SEMBUNYIKAN */}
               <div>
                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '12px', fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: '1px' }}>Password</label>
-                <input type="password" required value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} style={{ width: '100%', padding: '16px 20px', backgroundColor: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px', outline: 'none', boxSizing: 'border-box', fontSize: '15px', color: '#1e293b', fontWeight: '500', transition: 'border-color 0.2s' }} placeholder="Ketik password rahasia..." />
+                <div style={{ position: 'relative' }}>
+                  <input 
+                    type={showPassword ? "text" : "password"} 
+                    required 
+                    value={loginPassword} 
+                    onChange={(e) => setLoginPassword(e.target.value)} 
+                    style={{ width: '100%', padding: '16px 50px 16px 20px', backgroundColor: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px', outline: 'none', boxSizing: 'border-box', fontSize: '15px', color: '#1e293b', fontWeight: '500', transition: 'border-color 0.2s' }} 
+                    placeholder="Ketik password rahasia..." 
+                  />
+                  <button 
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)} 
+                    style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '5px' }}
+                    title={showPassword ? "Sembunyikan Password" : "Lihat Password"}
+                  >
+                    {showPassword ? "🙈" : "👁️"}
+                  </button>
+                </div>
               </div>
+
               <button type="submit" style={{ width: '100%', padding: '16px', background: isRegisterMode ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px', marginTop: '10px', boxShadow: isRegisterMode ? '0 10px 15px -3px rgba(16, 185, 129, 0.4)' : '0 10px 15px -3px rgba(37, 99, 235, 0.4)', transition: 'transform 0.1s' }}>
                 {isRegisterMode ? "Daftarkan Sekarang" : "Masuk ke Dashboard"}
               </button>
