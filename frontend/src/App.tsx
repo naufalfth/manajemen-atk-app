@@ -186,7 +186,7 @@ function App() {
   if (!token) {
     return (
       <div style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px', boxSizing: 'border-box' }}>
-        <div style={{ backgroundColor: '#ffffff', padding: '40px 30px', borderRadius: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '40px 30px', borderRadius: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '420px', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div style={{ fontSize: '48px', marginBottom: '15px' }}>📦</div>
@@ -254,8 +254,8 @@ function App() {
   }
 
   return (
-    <div style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9', boxSizing: 'border-box' }}>
-      <div style={{ width: '100%', maxWidth: '1000px' }}>
+    <div style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', backgroundColor: '#f1f5f9', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '40px 20px', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', maxWidth: '1000px', boxSizing: 'border-box' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
           <div>
             <h1 style={{ margin: 0, color: '#0f172a', fontSize: '28px', fontWeight: '800' }}>Dashboard Inventaris</h1>
