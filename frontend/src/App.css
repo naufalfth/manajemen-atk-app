@@ -1,55 +1,5 @@
-* {
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-html, body, #root {
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-  background-color: #0f172a; /* Menyamakan background luar */
-}
-
-@media (max-width: 768px) {
-  .main-container {
-    padding: 20px 10px !important;
-  }
-
-  .header-container {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 15px;
-  }
-
-  .form-tambah-container {
-    flex-direction: column;
-    align-items: stretch !important;
-  }
-  
-  .form-tambah-container input {
-    width: 100% !important;
-    flex: none !important;
-    box-sizing: border-box;
-  }
-
-  .form-tambah-container > div {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .form-tambah-container button {
-    width: 100%;
-  }
-
-  .daftar-header {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 15px;
-  }
-  
-  .daftar-header input {
-    width: 100% !important;
-    box-sizing: border-box;
-  }
+  background-color: #0f172a;
 }

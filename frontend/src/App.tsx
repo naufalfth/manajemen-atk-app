@@ -187,8 +187,8 @@ function App() {
 
   if (!token) {
     return (
-      <div className="main-container" style={{ minHeight: '100vh', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9' }}>
-        <div style={{ backgroundColor: '#ffffff', padding: '40px 25px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px', boxSizing: 'border-box' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '40px 30px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', boxSizing: 'border-box' }}>
           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: isRegisterMode ? 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' : 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)', borderRadius: '50%', opacity: '0.2', zIndex: 0, transition: 'background 0.5s' }}></div>
 
           <div style={{ position: 'relative', zIndex: 1 }}>
@@ -239,9 +239,9 @@ function App() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <div className="daftar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+    <div style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', fontFamily: '"Inter", "Segoe UI", sans-serif', color: '#334155', padding: '40px 20px', backgroundColor: '#f1f5f9', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', maxWidth: '1000px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
           <div>
             <h1 style={{ margin: 0, color: '#0f172a', fontSize: '28px', fontWeight: '800' }}>Dashboard Inventaris</h1>
             <p style={{ margin: '5px 0 0 0', color: '#64748b', fontSize: '15px' }}>Sistem Manajemen Stok Terpusat (AI Powered)</p>
