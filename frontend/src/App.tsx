@@ -185,9 +185,8 @@ function App() {
 
   if (!token) {
     return (
-      <div style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f1f5f9', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px', boxSizing: 'border-box' }}>
-        <div style={{ backgroundColor: '#ffffff', padding: '50px 40px', borderRadius: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
-          
+      <div style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', fontFamily: '"Inter", "Segoe UI", sans-serif', padding: '20px', boxSizing: 'border-box' }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '40px 30px', borderRadius: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', width: '100%', maxWidth: '420px', position: 'relative', overflow: 'hidden', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}>
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div style={{ fontSize: '48px', marginBottom: '15px' }}>📦</div>
