@@ -46,7 +46,6 @@ function App() {
     e.preventDefault();
     setLoginError('');
 
-    // Gunakan URLSearchParams agar formatnya sesuai dengan sistem token FastAPI
     const formData = new URLSearchParams();
     formData.append('username', loginUsername);
     formData.append('password', loginPassword);
@@ -62,7 +61,6 @@ function App() {
       setLoginUsername('');
       setLoginPassword('');
     } catch (error) {
-      // Solusi TypeScript tanpa menggunakan kata kunci 'any'
       const err = error as { response?: { data?: { detail?: string } } };
       setLoginError(err.response?.data?.detail || "Username atau Password salah!");
     }
@@ -83,7 +81,6 @@ function App() {
       setLoginPassword('');
       setLoginUsername('');
     } catch (error) {
-      // Solusi TypeScript tanpa menggunakan kata kunci 'any'
       const err = error as { response?: { data?: { detail?: string } } };
       setLoginError(err.response?.data?.detail || "Gagal melakukan registrasi");
     }
@@ -151,7 +148,7 @@ function App() {
       })
       .then(() => {
         resetForm();
-        fetchDataBarang(); // <--- Tambahan agar tabel langsung update!
+        fetchDataBarang();
         alert(editId ? "Data berhasil diperbarui!" : "Barang berhasil ditambahkan!");
       })
       .catch((err) => console.error(err));
@@ -167,7 +164,7 @@ function App() {
         if (res.status === 403) {
           alert("Akses Ditolak: Hanya Super Admin yang bisa menghapus data.");
         } else if (res.ok) {
-          fetchDataBarang(); // <--- Tambahan agar barang langsung hilang dari layar!
+          fetchDataBarang();
         }
       });
   };
@@ -210,7 +207,6 @@ function App() {
                 <input type="text" required value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} style={{ width: '100%', padding: '16px 20px', backgroundColor: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: '12px', outline: 'none', boxSizing: 'border-box', fontSize: '15px', color: '#1e293b', fontWeight: '500', transition: 'border-color 0.2s' }} placeholder="Ketik username Anda..." />
               </div>
 
-              {/* INPUT PASSWORD DENGAN TOMBOL LIHAT/SEMBUNYIKAN */}
               <div>
                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '12px', fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: '1px' }}>Password</label>
                 <div style={{ position: 'relative' }}>
@@ -228,7 +224,7 @@ function App() {
                     style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '5px' }}
                     title={showPassword ? "Sembunyikan Password" : "Lihat Password"}
                   >
-                    {showPassword ? "🙈" : "👁️"}
+                    {showPassword ? "👁️" : "🙈"}
                   </button>
                 </div>
               </div>
@@ -264,7 +260,7 @@ function App() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
           <div>
             <h1 style={{ margin: 0, color: '#0f172a', fontSize: '28px', fontWeight: '800' }}>Dashboard Inventaris</h1>
-            <p style={{ margin: '5px 0 0 0', color: '#64748b', fontSize: '15px' }}>Sistem Manajemen Stok Terpusat (AI Powered)</p>
+            <p style={{ margin: '5px 0 0 0', color: '#64748b', fontSize: '15px' }}>Sistem Manajemen Stok Barang</p>
           </div>
           <button onClick={handleLogout} style={{ padding: '10px 20px', backgroundColor: '#f8fafc', color: '#475569', border: '1px solid #cbd5e1', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px' }}>Keluar (Logout)</button>
         </div>
@@ -322,7 +318,6 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* Tambahkan parameter index di sini */}
                   {barangDitampilkan.map((barang, index) => {
                     const styleKategori = getKategoriStyle(barang.kategori);
                     return (
