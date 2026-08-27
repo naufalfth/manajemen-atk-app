@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import api from './api';
 import './App.css';
 
+
 const API_BASE_URL = ""; 
 const WS_BASE_URL = `wss://${window.location.host}/ws`;
 
